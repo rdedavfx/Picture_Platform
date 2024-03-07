@@ -1289,7 +1289,7 @@ function _emscripten_asm_const_ii(code, a0) {
  return ASM_CONSTS[code](a0);
 }
 STATIC_BASE = GLOBAL_BASE;
-STATICTOP = STATIC_BASE + 2874400;
+STATICTOP = STATIC_BASE + 2870800;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_AccessibilityScriptingClasses_cpp();
@@ -3167,12 +3167,29 @@ __ATINIT__.push({
   ___emscripten_environ_constructor();
  })
 });
-var STATIC_BUMP = 2874400;
+var STATIC_BUMP = 2870800;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
 STATICTOP += 16;
 assert(tempDoublePtr % 8 == 0);
+function _DownloadFile(content, filename) {
+ const contentStr = Pointer_stringify(content);
+ const filenameStr = Pointer_stringify(filename);
+ const blob = new Blob([ contentStr ], {
+  type: "text/plain"
+ });
+ const url = URL.createObjectURL(blob, {
+  oneTimeOnly: true
+ });
+ const element = document.createElement("a");
+ element.href = url;
+ element.download = filenameStr;
+ element.style.display = "none";
+ document.body.appendChild(element);
+ element.click();
+ document.body.removeChild(element);
+}
 function _DownloadScreenshot(array, size, fileNamePtr) {
  var fileName = UTF8ToString(fileNamePtr);
  var bytes = new Uint8Array(size);
@@ -18302,6 +18319,7 @@ Module.asmLibraryArg = {
  "invoke_vijjii": invoke_vijjii,
  "invoke_vjiiii": invoke_vjiiii,
  "invoke_vjji": invoke_vjji,
+ "_DownloadFile": _DownloadFile,
  "_DownloadScreenshot": _DownloadScreenshot,
  "_JS_Cursor_SetImage": _JS_Cursor_SetImage,
  "_JS_Cursor_SetShow": _JS_Cursor_SetShow,
